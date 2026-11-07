@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>PPT TECH | Çok Yakında</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #05030a;
+            color: #f3f0ff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Arka Plan Hareketli Neon Efekti (Canvas) */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 600px;
+            background: rgba(11, 9, 20, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(176, 0, 255, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(176, 0, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 0 0 20px #b000ff, 0 0 40px #b000ff;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .badge {
+            font-size: 1.4rem;
+            color: #e0b0ff;
+            text-shadow: 0 0 15px #b000ff;
+            margin-bottom: 25px;
+            animation: pulse 1.5s infinite alternate;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Geri Sayım Kutuları */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .time-box {
+            background: rgba(19, 16, 34, 0.9);
+            border: 1px solid rgba(176, 0, 255, 0.5);
+            border-radius: 10px;
+            padding: 10px 15px;
+            min-width: 70px;
+            box-shadow: 0 0 15px rgba(176, 0, 255, 0.2);
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px #b000ff;
+        }
+
+        .time-box small {
+            font-size: 0.75rem;
+            color: #a39bb8;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #a39bb8;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #25d366;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #1ebe5d;
+            box-shadow: 0 0 35px #25d366;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Arka Plan Animasyonu için Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="container">
+        <h1>PPT TECH</h1>
+        <div class="badge">ÇOK YAKINDA...</div>
+
+        <!-- Geri Sayım Sayacı -->
+        <div class="countdown">
+            <div class="time-box">
+                <span id="days">00</span>
+                <small>Gün</small>
+            </div>
+            <div class="time-box">
+                <span id="hours">00</span>
+                <small>Saat</small>
+            </div>
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <small>Dakika</small>
+            </div>
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <small>Saniye</small>
+            </div>
+        </div>
+        
+        <p>Geleceğin teknolojisi ve profesyonel çözümlerle geliyoruz.</p>
+
+        <a href="https://chat.whatsapp.com/HSsqBYvOJRu00enbzkVZio?s=cl&p=a&iam=2" target="_blank" class="whatsapp-btn">
+            🚀 WhatsApp Grubumuza Katılın
+        </a>
+    </div>
+
+    <script>
+        /* Arka Plan Parçacık Efekti (Neon Web) */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 60;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.8,
+                speedY: (Math.random() - 0.5) * 0.8
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(176, 0, 255, 0.5)';
+            ctx.strokeStyle = 'rgba(176, 0, 255, 0.15)';
+
+            particles.forEach((p, index) => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Parçacıkları birbirine bağlayan çizgiler
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* Geri Sayım Sayacı Mantığı (Örn: 7 gün sonrasına ayarlandı) */
+        const targetDate = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const gap = targetDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const d = Math.floor(gap / day);
+            const h = Math.floor((gap % day) / hour);
+            const m = Math.floor((gap % hour) / minute);
+            const s = Math.floor((gap % minute) / second);
+
+            document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
